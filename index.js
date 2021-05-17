@@ -2,7 +2,8 @@
 const mysql = require('mysql'),
 // For NPM inquirer so that we can run prompts
 const inquirer = require("inquirer"),
-// These two requires will work together so that we can create an interactive employee DB
+// Ask TA or instructor on what this does. Do I need to do an npm install?
+const cTable = require("console.table")
 
 const connection = mysql.createConnection({
     // use local host
@@ -19,12 +20,13 @@ const connection = mysql.createConnection({
     database: 'Employee_DB',
 
 });
-
+    //When there is an error in connection  
 connection.connect((err) => {
     if (err) throw err;
     start();
 });
 
+    // This will start inquirer and give you list of what your want to lookup, add, remove, or update
 const start = () => {
     inquirer.prompt ({
         name: 'action',
@@ -44,7 +46,7 @@ const start = () => {
     .then((answer) => {
         switch (answer.action) {
           case 'View All Employees':
-            searchAllEmployees();
+            viewAllEmployees();
             break;
   
           case 'View All Employees by Department':
@@ -71,5 +73,16 @@ const start = () => {
             console.log(`Invalid action: ${answer.action}`);
             break;
         }
+    });
+};
+
+// This variable is to view all employee. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
+// If we type something in wrong, then we get an error 
+const viewAllEmployees = () => {
+    const query = 'Select ALL from EmployeeDB';
+    connection.query = (query, (err, res) => {
+        if (err) throw err;
+        console.log (res);
+        start();
     });
 };
