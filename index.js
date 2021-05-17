@@ -79,7 +79,7 @@ const start = () => {
 // This variable is to view all employee. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
 // If we type something in wrong, then we get an error 
 const viewAllEmployees = () => {
-    const query = 'Select employee FROM EmployeeDB';
+    const query = 'SELECT * FROM employee';
     connection.query = (query, (err, res) => {
         if (err) throw err;
         console.log (res);
@@ -90,7 +90,7 @@ const viewAllEmployees = () => {
 // This variable to view all employees by department (engineering, sales, legal, etc)
 // choose which department and all employees from that department will show
 const viewEmployeesByDepartment = () => {
-    const query = 'SELECT department FROM EmployeeDB';
+    const query = 'SELECT * FROM department';
     connection.query = (query, (err, res) => {
         if (err) throw err;
         console.log (res);
@@ -101,7 +101,7 @@ const viewEmployeesByDepartment = () => {
 // This variable to pick a manager.
 // When you pick a manager, this will show all the manager's employees
 const viewAllEmployeesByManager = () => {
-    const query = "SELECT manager FROM EmployeeDB";
+    const query = "SELECT * FROM manager";
     connection.query = (query, (err, res) => {
         if (err) throw err;
         console.log (res);
