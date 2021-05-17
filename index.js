@@ -98,4 +98,15 @@ const viewEmployeesByDepartment = () => {
     });
 };
 
+// This variable to pick a manager.
+// When you pick a manager, this will show all the manager's employees
+const viewAllEmployeesByManager = () => {
+    const query = "SELECT manager FROM EmployeeDB";
+    connection.query = (query, (err, res) => {
+        if (err) throw err;
+        console.log (res);
+        start();
+    });
+}
+
 
