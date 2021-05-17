@@ -4,7 +4,7 @@ CREATE database EmployeeDB;
 USE EmployeeDB;
 
 CREATE TABLE department (
-  id AUTO_INCREMENT NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
   name VARCHAR(30),
   PRIMARY KEY (id),
 );
@@ -18,16 +18,12 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE employee (
-  position INT NOT NULL,
-  artist VARCHAR(100) NULL,
-  album VARCHAR(100) NULL,
-  year INT NULL,
-  raw_total DECIMAL(10,4) NULL,
-  raw_usa DECIMAL(10,4) NULL,
-  raw_uk DECIMAL(10,4) NULL,
-  raw_eur DECIMAL(10,4) NULL,
-  raw_row DECIMAL(10,4) NULL,
-  PRIMARY KEY (position)
+  id INT AUTO_INCREMENT NOT NULL,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  role_id INT,
+  manager_id INT NULL,
+  PRIMARY KEY (id)
 );
 
 
