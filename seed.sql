@@ -1,12 +1,12 @@
-DROP DATABASE IF EXISTS EmployeeDB;
-CREATE database EmployeeDB;
+DROP DATABASE IF EXISTS Employee_DB;
+CREATE database Employee_DB;
 
-USE EmployeeDB;
+USE Employee_DB;
 
 CREATE TABLE department (
   id INT AUTO_INCREMENT NOT NULL,
   name VARCHAR(30),
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE roles (
@@ -27,8 +27,3 @@ CREATE TABLE employee (
 );
 
 
-
-
-
--- SELECT * FROM top5000;
--- select * from top_albums;
