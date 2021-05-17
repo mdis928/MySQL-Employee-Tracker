@@ -26,4 +26,6 @@ CREATE TABLE employee (
   PRIMARY KEY (id)
 );
 
+SELECT * FROM EmployeeDB;
+
 

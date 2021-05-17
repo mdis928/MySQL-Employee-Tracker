@@ -50,11 +50,11 @@ const start = () => {
             break;
   
           case 'View All Employees by Department':
-            searchAllEmployeeByDepartment();
+            viewEmployeesByDepartment();
             break;
   
           case 'View All Employees by Manager':
-            searchAllEmployeesByManager();
+            viewAllEmployeesByManager();
             break;
   
           case 'Add Employee':
@@ -79,10 +79,23 @@ const start = () => {
 // This variable is to view all employee. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
 // If we type something in wrong, then we get an error 
 const viewAllEmployees = () => {
-    const query = 'Select ALL from EmployeeDB';
+    const query = 'Select employee FROM EmployeeDB';
     connection.query = (query, (err, res) => {
         if (err) throw err;
         console.log (res);
         start();
     });
 };
+
+// This variable to view all employees by department (engineering, sales, legal, etc)
+// choose which department and all employees from that department will show
+const viewEmployeesByDepartment = () => {
+    const query = 'SELECT department FROM EmployeeDB';
+    connection.query = (query, (err, res) => {
+        if (err) throw err;
+        console.log (res);
+        start();
+    });
+};
+
+
