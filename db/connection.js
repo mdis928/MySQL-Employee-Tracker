@@ -76,6 +76,7 @@ const runSearch = () => {
     });
 };
 
+
 // This variable is to view all employees. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
 // If we type something in wrong, then we get an error 
 const viewAllEmployees = () => {
@@ -106,7 +107,7 @@ const viewAllEmployeesByManager = () => {
     const query = "SELECT manager.name, employee.id, employee.first_name, employee.lastname FROM employee";
     query += "LEFT JOIN roles on employee.role_id =roles.id";
     query += "LEFT JOIN employee on roles.manager_id = manager.id.";
-    query =+ "Where manager.id = 1";
+    query += "Where manager.id = 1";
     connection.query = (query, (err, res) => {
         console.table ("Employees by Manager");
         runSearch()
@@ -114,29 +115,48 @@ const viewAllEmployeesByManager = () => {
     
 };
 
+// This variable is to add an employee
+// When I click on add employee, I am given a prompt where I have to give the added employee a first name, last name, role, and manager
 const addEmployee = () => {
     inquirer.prompt ({
-        name: "First name of new employee",
+        name: "firstName",
         type: "input",
         message: "What is the first name of the employee?",
     },
     {
-        name: "Second name of the new employee",
+        name: "lastName",
         type: "input",
         message: "What is the last name of the new employee?",
         
     },
     {
-        name: "Role of the new employee",
+        name: "addedRole",
         type: "input",
         message: "What is the role of the new employee",
     },
     {
-        name: "Manager of the new employee",
+        name: "addedManager",
         type: "input",
         message: "Who is the employee's manager?",
     })
-    .then
+    .then((answer) => {
+        connection.query(
+            "INSERT INTO employee ?",
+            {
+                first_name: answer.firstName,
+                last_name: answer.lastName,  
+                role_id: answer.addedRole,
+                manager_id: answer.addedManager, 
+            },
+            (err) => {
+                if (err) throw err;
+                console.log("You have added a new employee sucessfully");
+                runSearch();
+            }
+
+        );
+        
+    });
 }
 
 
