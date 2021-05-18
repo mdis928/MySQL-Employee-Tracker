@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "console.table": "^0.10.0",
     "inquirer": "^8.0.0"
   },
   "devDependencies": {},
