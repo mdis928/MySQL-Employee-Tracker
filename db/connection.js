@@ -45,6 +45,18 @@ const runSearch = () => {
     })
     .then((answer) => {
         switch (answer.action) {
+          case 'Add a department':
+            addDepartment();
+            break;
+              
+          case 'Add a role':
+            addRole();
+            break;
+
+          case 'Add an Employee':
+            addEmployee ();
+            break;  
+
           case 'View All Employees':
             viewAllEmployees();
             break;
@@ -57,17 +69,13 @@ const runSearch = () => {
             viewAllEmployeesByManager();
             break;
   
-          case 'Add Employee':
-            addEmployee();
-            break;
-  
           case 'Update Employee Role':
             updateEmployeeRole();
             break;
 
-          case 'Update Employee Manager':
-            updateEmployeeManager();
-            break;  
+        //   case 'Update Employee Manager':
+        //     updateEmployeeManager();
+        //     break;  
 
           default:
             console.log(`Invalid action: ${answer.action}`);
@@ -76,6 +84,49 @@ const runSearch = () => {
     });
 };
 
+// This variable is to add an employee
+// When I click on add employee, I am given a prompt where I have to give the added employee a first name, last name, role, and manager
+const addEmployee = () => {
+    inquirer.prompt ({
+        name: "firstName",
+        type: "input",
+        message: "What is the first name of the employee?",
+    },
+    {
+        name: "lastName",
+        type: "input",
+        message: "What is the last name of the new employee?",
+        
+    },
+    {
+        name: "addedRole",
+        type: "input",
+        message: "What is the role of the new employee",
+    },
+    {
+        name: "addedManager",
+        type: "input",
+        message: "Who is the employee's manager?",
+    })
+    .then((answer) => {
+        connection.query(
+            "INSERT INTO employee ?",
+            {
+                first_name: answer.firstName,
+                last_name: answer.lastName,  
+                role_id: answer.addedRole,
+                manager_id: answer.addedManager, 
+            },
+            (err) => {
+                if (err) throw err;
+                console.table("You have added a new employee sucessfully");
+                runSearch();
+            }
+
+        );
+        
+    });
+};
 
 // This variable is to view all employees. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
 // If we type something in wrong, then we get an error 
@@ -115,48 +166,11 @@ const viewAllEmployeesByManager = () => {
     
 };
 
-// This variable is to add an employee
-// When I click on add employee, I am given a prompt where I have to give the added employee a first name, last name, role, and manager
-const addEmployee = () => {
-    inquirer.prompt ({
-        name: "firstName",
-        type: "input",
-        message: "What is the first name of the employee?",
-    },
-    {
-        name: "lastName",
-        type: "input",
-        message: "What is the last name of the new employee?",
-        
-    },
-    {
-        name: "addedRole",
-        type: "input",
-        message: "What is the role of the new employee",
-    },
-    {
-        name: "addedManager",
-        type: "input",
-        message: "Who is the employee's manager?",
-    })
-    .then((answer) => {
-        connection.query(
-            "INSERT INTO employee ?",
-            {
-                first_name: answer.firstName,
-                last_name: answer.lastName,  
-                role_id: answer.addedRole,
-                manager_id: answer.addedManager, 
-            },
-            (err) => {
-                if (err) throw err;
-                console.log("You have added a new employee sucessfully");
-                runSearch();
-            }
 
-        );
-        
-    });
-}
+
+
+
+
+
 
 
