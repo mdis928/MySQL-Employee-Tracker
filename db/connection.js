@@ -1,9 +1,9 @@
 // For MySQL database
-const mysql = require('mysql'),
+const mysql = require('mysql');
 // For NPM inquirer so that we can run prompts
-const inquirer = require("inquirer"),
+const inquirer = require("inquirer");
 // Ask TA or instructor on what this does. Do I need to do an npm install?
-const cTable = require("console.table")
+const cTable = require("console.table");
 
 const connection = mysql.createConnection({
     // use local host
@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
     user: 'root',
 
     // When testing make sure to use your password. Make sure to delete password when you do a git push or pull. Talk to TA and instructor about this
-    password: '',
+    password: 'Password1!',
     database: 'Employee_DB',
 
 });
@@ -33,15 +33,16 @@ const runSearch = () => {
         type: 'rawlist',
         message: 'What would you like to do?',
         choices:[
+            'Add a department',
+            'Add an employee',
+            // 'Add a role',
             'View All Employees',
             'View All Employees by Department',
             'View All Employees by Manager',
-            'Add Employee',
-            'Remove Employee',
-            'Update Employee Role',
-            'Update Employee Manager'
-        ],
-
+            // 'Remove Employee',
+            // 'Update Employee Role',
+            'End Session',
+        ]
     })
     .then((answer) => {
         switch (answer.action) {
@@ -69,17 +70,17 @@ const runSearch = () => {
             viewAllEmployeesByManager();
             break;
   
-          case 'Update Employee Role':
-            updateEmployeeRole();
-            break;
+        //   case 'Update Employee Role':
+        //     updateEmployeeRole();
+        //     break;
 
         //   case 'Update Employee Manager':
         //     updateEmployeeManager();
         //     break;  
 
-          default:
-            console.log(`Invalid action: ${answer.action}`);
-            break;
+          case "End Session":
+              endSession();
+              break;
         }
     });
 };
@@ -220,6 +221,10 @@ const viewAllEmployeesByManager = () => {
     
 };
 
+function endSession () {
+    console.log('You have now ended session. Thank you for using the employee tracker database');
+    connection.end();
+}
 
 
 
