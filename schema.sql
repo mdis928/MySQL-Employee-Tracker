@@ -26,6 +26,8 @@ CREATE TABLE employee (
   PRIMARY KEY (id)
 );
 
-SELECT * FROM EmployeeDB;
+SELECT * FROM department
+SELECT * FROM roles
+SELECT * FROM employee
 
 

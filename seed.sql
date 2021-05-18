@@ -42,6 +42,13 @@ INSERT INTO roles (title, salary)
 values (Lawyer, 200000);
 
 
+-- Select from for employee. This is also is in index.js when searching for all employees
+SELECT * FROM employee
+
+
+
+
+
 
 
 
