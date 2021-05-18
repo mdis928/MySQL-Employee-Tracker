@@ -94,7 +94,7 @@ const viewEmployeesByDepartment = () => {
     query += "LEFT JOIN roles on employee.role_id = roles.id";
     query += "LEFT JOIN department on roles.department_id = department.id";
     query += "WHERE department.id = 1";
-    connection.query = ( query, (err, res) => {
+    connection.query = (query, (err, res) => {
         console.table ("Employees by Department");
         runSearch()
     })
@@ -103,12 +103,15 @@ const viewEmployeesByDepartment = () => {
 // This variable to pick a manager.
 // When you pick a manager, this will show all the manager's employees
 const viewAllEmployeesByManager = () => {
-    const query = "SELECT * FROM manager";
+    const query = "SELECT manager.name, employee.id, employee.first_name, employee.lastname FROM employee";
+    query += "LEFT JOIN roles on employee.role_id =roles.id";
+    query += "LEFT JOIN employee on roles.manager_id = manager.id.";
+    query =+ "Where manager.id = 1";
     connection.query = (query, (err, res) => {
-        if (err) throw err;
-        console.table (res);
-        runSearch();
-    });
-}
+        console.table ("Employees by Manager");
+        runSearch()
+    })
+    
+};
 
 
