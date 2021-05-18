@@ -23,11 +23,11 @@ const connection = mysql.createConnection({
     //When there is an error in connection  
 connection.connect((err) => {
     if (err) throw err;
-    start();
+    runSearch();
 });
 
     // This will start inquirer and give you list of what your want to lookup, add, remove, or update
-const start = () => {
+const runSearch = () => {
     inquirer.prompt ({
         name: 'action',
         type: 'rawlist',
@@ -82,8 +82,8 @@ const viewAllEmployees = () => {
     const query = 'SELECT * FROM employee';
     connection.query = (query, (err, res) => {
         if (err) throw err;
-        console.log (res);
-        start();
+        console.table (res);
+        runSearch();
     });
 };
 
@@ -94,6 +94,10 @@ const viewEmployeesByDepartment = () => {
     query += "LEFT JOIN roles on employee.role_id = roles.id";
     query += "LEFT JOIN department on roles.department_id = department.id";
     query += "WHERE department.id = 1";
+    connection.query = ( query, (err, res) => {
+        console.table ("Employees by Department");
+        runSearch()
+    })
 };
 
 // This variable to pick a manager.
@@ -102,8 +106,8 @@ const viewAllEmployeesByManager = () => {
     const query = "SELECT * FROM manager";
     connection.query = (query, (err, res) => {
         if (err) throw err;
-        console.log (res);
-        start();
+        console.table (res);
+        runSearch();
     });
 }
 
