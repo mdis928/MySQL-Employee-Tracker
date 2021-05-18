@@ -49,9 +49,9 @@ const runSearch = () => {
             addDepartment();
             break;
               
-          case 'Add a role':
-            addRole();
-            break;
+        //   case 'Add a role':
+        //     addRole();
+        //     break;
 
           case 'Add an Employee':
             addEmployee ();
@@ -83,6 +83,60 @@ const runSearch = () => {
         }
     });
 };
+
+// When I choose add department, I am asked for the name of the department. When I give an answer, that department name is saved
+const addDepartment = () => {
+    inquirer.prompt ({
+        name: "addedDepartment",
+        type: "input",
+        message: "What is the name of the department?",
+    })
+    .then ((answer) => {
+        connection.query(
+            "INSERT INTO department",
+            {
+                name: answer.addedDepartment
+            },
+            (err) => {
+                if (err) throw err;
+                console.table("You have sucessfull added a new employee");
+                runSearch();
+            }
+        );
+    });
+};
+
+// const addRole = () => {
+//     inquirer.prompt ({
+//         name: "addedRole",
+//         type: "input",
+//         message: "What is the new name of the new role?",
+//     },
+//     {
+//         name: "salary",
+//         type: "input",
+//         message: "What is the salary for the new role",
+//     },
+//     {
+
+//     })
+//     .then ((answer) => {
+//         connection.query(
+//             "INSERT INTO department",
+//             {
+//                 name: answer.addedDepartment
+//             },
+//             (err) => {
+//                 if (err) throw err;
+//                 console.table("You have sucessfull added a new employee");
+//                 runSearch();
+//             }
+//         );
+//     });
+// };
+    
+
+
 
 // This variable is to add an employee
 // When I click on add employee, I am given a prompt where I have to give the added employee a first name, last name, role, and manager
@@ -119,7 +173,7 @@ const addEmployee = () => {
             },
             (err) => {
                 if (err) throw err;
-                console.table("You have added a new employee sucessfully");
+                console.table("You have sucessfully added a new employee");
                 runSearch();
             }
 
