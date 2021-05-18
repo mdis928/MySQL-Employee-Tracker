@@ -90,12 +90,10 @@ const viewAllEmployees = () => {
 // This variable to view all employees by department (engineering, sales, legal, etc)
 // choose which department and all employees from that department will show
 const viewEmployeesByDepartment = () => {
-    const query = 'SELECT name FROM department WHERE first_name.employee, last_name.employee';
-    connection.query = (query, (err, res) => {
-        if (err) throw err;
-        console.log (res);
-        start();
-    });
+    let query = 'SELECT department.name, employee.id, employee.first_name, employee.last_name FROM employee';
+    query += "LEFT JOIN roles on employee.role_id = roles.id";
+    query += "LEFT JOIN department on roles.department_id = department.id";
+    query += "WHERE department.id = 1";
 };
 
 // This variable to pick a manager.
