@@ -36,7 +36,7 @@ const runSearch = () => {
             'Add a department',
             'Add an employee',
             // 'Add a role',
-            'View All Employees',
+            'View all Employees',
             'View All Employees by Department',
             'View All Employees by Manager',
             // 'Remove Employee',
@@ -58,7 +58,7 @@ const runSearch = () => {
             addEmployee ();
             break;  
 
-          case 'View All Employees':
+          case 'View all Employees':
             viewAllEmployees();
             break;
   
@@ -82,6 +82,7 @@ const runSearch = () => {
               endSession();
               break;
 
+        // this is case sensitive. The dafault helps when something is not matching case sensitive
           default:
               connection.end();
         }
