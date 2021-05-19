@@ -30,7 +30,7 @@ connection.connect((err) => {
 const runSearch = () => {
     inquirer.prompt ({
         name: 'action',
-        type: 'rawlist',
+        type: 'list',
         message: 'What would you like to do?',
         choices:[
             'Add a department',
@@ -161,12 +161,12 @@ const addEmployee = () => {
     {
         name: "addedRole",
         type: "input",
-        message: "What is the role of the new employee",
+        message: "Please enter role id (INT)",
     },
     {
-        name: "addedManager",
-        type: "input",
-        message: "Who is the employee's manager?",
+        // name: "addedManager",
+        // type: "input",
+        // message: "Who is the employee's manager?",
     },
     ]).then((answer) => {
         connection.query(
@@ -175,7 +175,7 @@ const addEmployee = () => {
                 first_name: answer.firstName,
                 last_name: answer.lastName,  
                 role_id: answer.addedRole,
-                manager_id: answer.addedManager, 
+                // manager_id: answer.addedManager, 
             },
             (err) => {
                 if (err) throw err;
