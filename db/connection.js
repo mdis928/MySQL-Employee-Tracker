@@ -161,12 +161,12 @@ const addEmployee = () => {
     {
         name: "addedRole",
         type: "input",
-        message: "Please enter role id (INT)",
+        message: "What is the role? Please enter role id integer (Salesperson = 1, Engineer = 2, Financial Analyst = 3, Lawyer = 4)",
     },
     {
-        // name: "addedManager",
-        // type: "input",
-        // message: "Who is the employee's manager?",
+        name: "addedManager",
+        type: "input",
+        message: "Who is the employee's manager? Please enter the manager id integer (Rachel Salvator = 9, Lizzy Liz = 10, Abigail Chet = 11, Sharan Bartlebee = 12",
     },
     ]).then((answer) => {
         connection.query(
@@ -175,7 +175,7 @@ const addEmployee = () => {
                 first_name: answer.firstName,
                 last_name: answer.lastName,  
                 role_id: answer.addedRole,
-                // manager_id: answer.addedManager, 
+                manager_id: answer.addedManager, 
             },
             (err) => {
                 if (err) throw err;
