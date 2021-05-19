@@ -54,7 +54,7 @@ const runSearch = () => {
         //     addRole();
         //     break;
 
-          case 'Add an Employee':
+          case 'Add an employee':
             addEmployee ();
             break;  
 
@@ -81,6 +81,9 @@ const runSearch = () => {
           case "End Session":
               endSession();
               break;
+
+          default:
+              connection.end();
         }
     });
 };
@@ -100,7 +103,7 @@ const addDepartment = () => {
             },
             (err) => {
                 if (err) throw err;
-                console.table("You have sucessfull added a new department");
+                console.table("You have sucessfull added a new department!");
                 runSearch();
             }
         );
@@ -142,7 +145,8 @@ const addDepartment = () => {
 // This variable is to add an employee
 // When I click on add employee, I am given a prompt where I have to give the added employee a first name, last name, role, and manager
 const addEmployee = () => {
-    inquirer.prompt ({
+    inquirer.prompt ([
+    {
         name: "firstName",
         type: "input",
         message: "What is the first name of the employee?",
@@ -162,10 +166,10 @@ const addEmployee = () => {
         name: "addedManager",
         type: "input",
         message: "Who is the employee's manager?",
-    })
-    .then((answer) => {
+    },
+    ]).then((answer) => {
         connection.query(
-            "INSERT INTO employee ?",
+            "INSERT INTO employee SET ?",
             {
                 first_name: answer.firstName,
                 last_name: answer.lastName,  
@@ -174,7 +178,7 @@ const addEmployee = () => {
             },
             (err) => {
                 if (err) throw err;
-                console.table("You have sucessfully added a new employee");
+                console.table("You have sucessfully added a new employee!");
                 runSearch();
             }
 
