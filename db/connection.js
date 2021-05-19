@@ -35,10 +35,10 @@ const runSearch = () => {
         choices:[
             'Add a department',
             'Add an employee',
-            // 'Add a role',
-            'View all Employees',
-            'View All Employees by Department',
-            'View All Employees by Manager',
+            'Add a role',
+            'View all employees',
+            'View all employees by department',
+            'View all employees by manager',
             // 'Remove Employee',
             // 'Update Employee Role',
             'End Session',
@@ -50,23 +50,24 @@ const runSearch = () => {
             addDepartment();
             break;
               
-        //   case 'Add a role':
-        //     addRole();
-        //     break;
+          case 'Add a role':
+            addRole();
+            break;
 
           case 'Add an employee':
             addEmployee ();
             break;  
 
-          case 'View all Employees':
+          case 'View all employees':
+            console.log(answer.action)
             viewAllEmployees();
             break;
   
-          case 'View All Employees by Department':
+          case 'View all employees by department':
             viewEmployeesByDepartment();
             break;
   
-          case 'View All Employees by Manager':
+          case 'View all employees by manager':
             viewAllEmployeesByManager();
             break;
   
@@ -82,7 +83,7 @@ const runSearch = () => {
               endSession();
               break;
 
-        // this is case sensitive. The dafault helps when something is not matching case sensitive
+        // this is case sensitive. The default helps when something is not matching case sensitive
           default:
               connection.end();
         }
@@ -111,34 +112,34 @@ const addDepartment = () => {
     });
 };
 
-// const addRole = () => {
-//     inquirer.prompt ({
-//         name: "addedRole",
-//         type: "input",
-//         message: "What is the new name of the new role?",
-//     },
-//     {
-//         name: "salary",
-//         type: "input",
-//         message: "What is the salary for the new role",
-//     },
-//     {
+const addRole = () => {
+    inquirer.prompt ({
+        name: "addedRole",
+        type: "input",
+        message: "What is the new name of the new role?",
+    },
+    {
+        name: "salary",
+        type: "input",
+        message: "What is the salary for the new role",
+    },
+    {
 
-//     })
-//     .then ((answer) => {
-//         connection.query(
-//             "INSERT INTO department",
-//             {
-//                 name: answer.addedDepartment
-//             },
-//             (err) => {
-//                 if (err) throw err;
-//                 console.table("You have sucessfull added a new employee");
-//                 runSearch();
-//             }
-//         );
-//     });
-// };
+    })
+    .then ((answer) => {
+        connection.query(
+            "INSERT INTO department",
+            {
+                name: answer.addedDepartment
+            },
+            (err) => {
+                if (err) throw err;
+                console.table("You have sucessfull added a new employee");
+                runSearch();
+            }
+        );
+    });
+};
     
 
 
@@ -195,6 +196,7 @@ const viewAllEmployees = () => {
     connection.query = (query, (err, res) => {
         if (err) throw err;
         console.table (res);
+        console.log(answer.action);
         runSearch();
     });
 };
