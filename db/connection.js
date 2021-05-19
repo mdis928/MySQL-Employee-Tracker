@@ -35,12 +35,9 @@ const runSearch = () => {
         choices:[
             'Add a department',
             'Add an employee',
-            // 'Add a role',
             'View all employees',
             'View all employees by department',
             'View all employees by manager',
-            // 'Remove Employee',
-            // 'Update Employee Role',
             'End Session',
         ]
     })
@@ -50,15 +47,12 @@ const runSearch = () => {
             addDepartment();
             break;
               
-        //   case 'Add a role':
-        //     addRole();
-        //     break;
-
           case 'Add an employee':
             addEmployee ();
             break;  
 
           case 'View all employees':
+              console.log(answer.action)
             viewAllEmployees();
             break;
   
@@ -102,37 +96,6 @@ const addDepartment = () => {
         );
     });
 };
-
-// const addRole = () => {
-//     inquirer.prompt ({
-//         name: "addedRole",
-//         type: "input",
-//         message: "What is the new name of the new role?",
-//     },
-//     {
-//         name: "salary",
-//         type: "input",
-//         message: "What is the salary for the new role",
-//     },
-//     {
-
-//     })
-//     .then ((answer) => {
-//         connection.query(
-//             "INSERT INTO department",
-//             {
-//                 name: answer.addedDepartment
-//             },
-//             (err) => {
-//                 if (err) throw err;
-//                 console.table("You have sucessfull added a new employee");
-//                 runSearch();
-//             }
-//         );
-//     });
-// };
-    
-
 
 
 // This variable is to add an employee
@@ -183,25 +146,28 @@ const addEmployee = () => {
 // This variable is to view all employees. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
 // If we type something in wrong, then we get an error 
 const viewAllEmployees = () => {
-    const query = 'SELECT * FROM employee';
-    connection.query = (query, (err, res) => {
-        if (err) throw err;
-        console.table (res);
-        console.log(answer.action);
+    let query = " Select * FROM employee ";
+    // console.log(query);
+    connection.query (query, function (err, res){
+        // console.log(res);
+        console.table("All Employees", res);
         runSearch();
-    });
-};
+    })
+    
+}
 
 // This variable to view all employees by department (engineering, sales, legal, etc)
 // choose which department and all employees from that department will show
 const viewEmployeesByDepartment = () => {
-    let query = 'SELECT department.name, employee.id, employee.first_name, employee.last_name FROM employee';
-    query += "LEFT JOIN roles on employee.role_id = roles.id";
-    query += "LEFT JOIN department on roles.department_id = department.id";
-    query += "WHERE department.id = 1";
-    connection.query = (query, (err, res) => {
-        console.table ("Employees by Department");
-        runSearch()
+    let query = "Select * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN department on roles.department_id = department.id";
+
+    // let query = 'SELECT department.name, employee.id, employee.first_name, employee.last_name FROM employee';
+    // query += "LEFT JOIN roles on employee.role_id = roles.id";
+    // query += "LEFT JOIN department on roles.department_id = department.id";
+    // query += "WHERE department.id = 1";
+    connection.query (query, (err, res) => {
+        console.table ("Employees by Department", res);
+        runSearch();
     })
 };
 
@@ -212,8 +178,8 @@ const viewAllEmployeesByManager = () => {
     query += "LEFT JOIN roles on employee.role_id =roles.id";
     query += "LEFT JOIN employee on roles.manager_id = manager.id.";
     query += "Where manager.id = 1";
-    connection.query = (query, (err, res) => {
-        console.table ("Employees by Manager");
+    connection.query (query, (err, res) => {
+        console.table ("Employees by Manager", res);
         runSearch()
     })
     
@@ -227,7 +193,34 @@ function endSession () {
 
 
 
-
+// const addRole = () => {
+    //     inquirer.prompt ({
+    //         name: "addedRole",
+    //         type: "input",
+    //         message: "What is the new name of the new role?",
+    //     },
+    //     {
+    //         name: "salary",
+    //         type: "input",
+    //         message: "What is the salary for the new role",
+    //     },
+    //     {
+    
+    //     })
+    //     .then ((answer) => {
+    //         connection.query(
+    //             "INSERT INTO department",
+    //             {
+    //                 name: answer.addedDepartment
+    //             },
+    //             (err) => {
+    //                 if (err) throw err;
+    //                 console.table("You have sucessfull added a new employee");
+    //                 runSearch();
+    //             }
+    //         );
+    //     });
+    // };
 
 
 
