@@ -35,7 +35,7 @@ const runSearch = () => {
         choices:[
             'Add a department',
             'Add an employee',
-            'Add a role',
+            // 'Add a role',
             'View all employees',
             'View all employees by department',
             'View all employees by manager',
@@ -50,16 +50,15 @@ const runSearch = () => {
             addDepartment();
             break;
               
-          case 'Add a role':
-            addRole();
-            break;
+        //   case 'Add a role':
+        //     addRole();
+        //     break;
 
           case 'Add an employee':
             addEmployee ();
             break;  
 
           case 'View all employees':
-            console.log(answer.action)
             viewAllEmployees();
             break;
   
@@ -70,14 +69,6 @@ const runSearch = () => {
           case 'View all employees by manager':
             viewAllEmployeesByManager();
             break;
-  
-        //   case 'Update Employee Role':
-        //     updateEmployeeRole();
-        //     break;
-
-        //   case 'Update Employee Manager':
-        //     updateEmployeeManager();
-        //     break;  
 
           case "End Session":
               endSession();
@@ -112,34 +103,34 @@ const addDepartment = () => {
     });
 };
 
-const addRole = () => {
-    inquirer.prompt ({
-        name: "addedRole",
-        type: "input",
-        message: "What is the new name of the new role?",
-    },
-    {
-        name: "salary",
-        type: "input",
-        message: "What is the salary for the new role",
-    },
-    {
+// const addRole = () => {
+//     inquirer.prompt ({
+//         name: "addedRole",
+//         type: "input",
+//         message: "What is the new name of the new role?",
+//     },
+//     {
+//         name: "salary",
+//         type: "input",
+//         message: "What is the salary for the new role",
+//     },
+//     {
 
-    })
-    .then ((answer) => {
-        connection.query(
-            "INSERT INTO department",
-            {
-                name: answer.addedDepartment
-            },
-            (err) => {
-                if (err) throw err;
-                console.table("You have sucessfull added a new employee");
-                runSearch();
-            }
-        );
-    });
-};
+//     })
+//     .then ((answer) => {
+//         connection.query(
+//             "INSERT INTO department",
+//             {
+//                 name: answer.addedDepartment
+//             },
+//             (err) => {
+//                 if (err) throw err;
+//                 console.table("You have sucessfull added a new employee");
+//                 runSearch();
+//             }
+//         );
+//     });
+// };
     
 
 
