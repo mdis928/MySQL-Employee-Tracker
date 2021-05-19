@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 // Ask TA or instructor on what this does. Do I need to do an npm install?
 const cTable = require("console.table");
 
-const connection = mysql.createConnection({
+let connection = mysql.createConnection({
     // use local host
     host: 'localhost',
 
@@ -94,13 +94,13 @@ const addDepartment = () => {
     })
     .then ((answer) => {
         connection.query(
-            "INSERT INTO department",
+            "INSERT INTO department SET ?",
             {
                 name: answer.addedDepartment
             },
             (err) => {
                 if (err) throw err;
-                console.table("You have sucessfull added a new employee");
+                console.table("You have sucessfull added a new department");
                 runSearch();
             }
         );
@@ -221,6 +221,7 @@ const viewAllEmployeesByManager = () => {
     
 };
 
+// To exit the database
 function endSession () {
     console.log('You have now ended session. Thank you for using the employee tracker database');
     connection.end();
