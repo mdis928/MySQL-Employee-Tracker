@@ -22,6 +22,7 @@ let connection = mysql.createConnection({
     database: 'Employee_DB',
 
 });
+
     //When there is an error in connection  
 connection.connect((err) => {
     if (err) throw err;
@@ -41,6 +42,7 @@ const runSearch = () => {
             'View all employees',
             'View all departments',
             'View all roles',
+            'Update employee roles',
             'View all employees by department',
             'View all employees by manager',
             'End Session',
@@ -65,13 +67,17 @@ const runSearch = () => {
             break;
         
           case "View all departments":
-             viewAllDepartments();
-             break;   
+            viewAllDepartments();
+            break;   
             
           case "View all roles":
-              viewAllRoles();
-              break;
-  
+            viewAllRoles();
+            break;
+        
+          case "Update employee roles":  
+            UpdateEmployeeRoles();
+            break;
+
           case 'View all employees by department':
             viewEmployeesByDepartment();
             break;
@@ -81,11 +87,11 @@ const runSearch = () => {
             break;
 
           case "End Session":
-              endSession();
-              break;
+            endSession();
+            break;
     // this is case sensitive. The default helps when something is not matching case sensitive
           default:
-              connection.end();
+            connection.end();
         }
     });
 };
@@ -217,6 +223,23 @@ const viewAllRoles = () => {
         runSearch();
     })
 };
+
+    // This function will let you update an employee's role
+const UpdateEmployeeRoles = () => {
+    console.log("The employee you have choosen now has his/her role update");
+    const query = connection.query (
+        "Update employee SET ? Where ?",
+        [
+            {
+                role_id
+            }
+        ],
+       connection.query(query, (err, res) => {
+           console.table("Please see table above", res);
+           runSearch();
+       })
+    )
+}
 
     // This function is to view all employees be department. LEFT JOIN is needed 
 const viewEmployeesByDepartment = () => {
