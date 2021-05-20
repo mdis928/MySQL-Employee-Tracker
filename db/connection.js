@@ -105,7 +105,7 @@ const addDepartment = () => {
             },
             (err) => {
                 if (err) throw err;
-                console.table("You have sucessfull added a new department!");
+                console.table("You have sucessfully added a new department!");
                 runSearch();
             }
         );
@@ -155,29 +155,30 @@ const addEmployee = () => {
         
     });
 };
+
     // When I click on add a role, I am ask for name, title, id, and department id
 const addRole = () => {
     inquirer.prompt ([
         {
-            name: "title",
+            name: "titleRole",
             type: "input",
             message: "What is the title of the new role?",
         },
         {
-            name: "salary",
+            name: "salaryRole",
             type: "input",
             message: "What is the salary amount (integer)",
         },
         {
             name: "departmentId",
             type: "input",
-            message: "What is the department id that corresponds with the role (Integer?",
+            message: "What is the department id that corresponds with the role?",
         },
-    ]).then ((answer) => {
+        ]).then ((answer) => {
         connection.query (
             "INSERT INTO role SET ?",
         {
-            title: answer.title,
+            title: answer.titleRole,
             salary: answer.salary,
             department_id: answer.departmentId,
         },
@@ -189,8 +190,6 @@ const addRole = () => {
         );
     });
 };
-
-
 
 
 
@@ -221,7 +220,7 @@ const viewAllRoles = () => {
     })
 };
 
-    // This function is to view all employees be department. LEFT JOIN is needed for role and department
+    // This function is to view all employees be department. LEFT JOIN is needed 
 const viewEmployeesByDepartment = () => {
     let query = "Select * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN department on roles.department_id = department.id";
     connection.query (query, (err, res) => {
@@ -230,7 +229,7 @@ const viewEmployeesByDepartment = () => {
     })
 };
 
-
+    // This function is to view all employees by manager. LEFT JOIN is needed
 const viewAllEmployeesByManager = () => {
     const query = "SELECT * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN manager on employee.manager_id = manager.id";
     connection.query (query, (err, res) => {
