@@ -167,7 +167,7 @@ const addRole = () => {
         {
             name: "salaryRole",
             type: "input",
-            message: "What is the salary amount (integer)",
+            message: "What is the salary amount (insert whole number plus two decimal places)",
         },
         {
             name: "departmentId",
@@ -176,7 +176,7 @@ const addRole = () => {
         },
         ]).then ((answer) => {
         connection.query (
-            "INSERT INTO role SET ?",
+            "INSERT INTO roles SET ?",
         {
             title: answer.titleRole,
             salary: answer.salary,
@@ -190,8 +190,6 @@ const addRole = () => {
         );
     });
 };
-
-
 
     // This function is to view all employees 
 const viewAllEmployees = () => {

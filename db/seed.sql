@@ -20,7 +20,7 @@ INSERT INTO roles (title, salary, department_id)
 values ('Salesperson', 80000, 1);
 
 INSERT INTO roles (title, salary, department_id)
-values ('Engineer', '150000', 2);
+values ('Engineer', 150000, 2);
 
 INSERT INTO roles (title, salary, department_id)
 values ('Financial Analyst', 85000, 3);
