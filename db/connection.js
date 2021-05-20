@@ -224,22 +224,59 @@ const viewAllRoles = () => {
     })
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // This function will let you update an employee's role
 const UpdateEmployeeRoles = () => {
-    console.log("The employee you have choosen now has his/her role update");
-    const query = connection.query (
-        "Update employee SET ? Where ?",
-        [
-            {
-                role_id
-            }
-        ],
-       connection.query(query, (err, res) => {
-           console.table("Please see table above", res);
-           runSearch();
-       })
-    )
+    let query = "Select * FROM employee";
+    connection.query (query, (err, res) => {
+        if (err) throw err;
+
+        inquirer.prompt([{
+            name: "choice",
+            type: "rawlist",
+            message: "Which employee's role would you like to update?",
+            choices: function (){
+                let choiceArray = [];
+                for (let i=1; i < res.length; i++) {
+                    let emp = '';
+                    emp = `${res[i].id} ${res[i].first_name} ${res[i].last_name} ${res[i].role_id}`
+                    choiceArray.push(emp)
+                }
+            } return choiceArray
+        }
+        ])
+    })
 }
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // This function is to view all employees be department. LEFT JOIN is needed 
 const viewEmployeesByDepartment = () => {
