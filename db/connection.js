@@ -36,6 +36,7 @@ const runSearch = () => {
             'Add a department',
             'Add an employee',
             'View all employees',
+            'View all departments',
             'View all employees by department',
             'View all employees by manager',
             'End Session',
@@ -70,8 +71,7 @@ const runSearch = () => {
           case "End Session":
               endSession();
               break;
-
-        // this is case sensitive. The default helps when something is not matching case sensitive
+                 // this is case sensitive. The default helps when something is not matching case sensitive
           default:
               connection.end();
         }
@@ -158,7 +158,7 @@ const viewAllEmployees = () => {
 const viewAllDepartments = () => {
     let query = " SELECT * FROM department ";
     connection.query (query, function (err, res){
-        console.table("All Departments, res");
+        console.table("All Departments", res);
         runSearch();
     })
 };
