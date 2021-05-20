@@ -1,6 +1,6 @@
-// For MySQL database
+// For MySQL database connection
 const mysql = require('mysql');
-// For NPM inquirer so that we can run prompts
+// So we can run inquirer prompts in the 
 const inquirer = require("inquirer");
 // Ask TA or instructor on what this does. Do I need to do an npm install?
 const cTable = require("console.table");
@@ -37,6 +37,7 @@ const runSearch = () => {
             'Add an employee',
             'View all employees',
             'View all departments',
+            'View all roles',
             'View all employees by department',
             'View all employees by manager',
             'End Session',
@@ -59,6 +60,10 @@ const runSearch = () => {
           case "View all departments":
              viewAllDepartments();
              break;   
+            
+          case "View all roles":
+              viewAllRoles();
+              break;
   
           case 'View all employees by department':
             viewEmployeesByDepartment();
@@ -100,9 +105,7 @@ const addDepartment = () => {
     });
 };
 
-
-// This variable is to add an employee
-// When I click on add employee, I am given a prompt where I have to give the added employee a first name, last name, role, and manager
+// When I click on add employee, I need to put in firstname, lastname, role, and manager. Once I do that, the employee is saved.
 const addEmployee = () => {
     inquirer.prompt ([
     {
@@ -155,6 +158,7 @@ const viewAllEmployees = () => {
     })
 };
 
+// This function is to view all departments
 const viewAllDepartments = () => {
     let query = " SELECT * FROM department ";
     connection.query (query, function (err, res){
@@ -163,14 +167,18 @@ const viewAllDepartments = () => {
     })
 };
 
-// This function is to view all employees be department. LEFT JOIN is needed
+// This function is to view all roles
+const viewAllRoles = () => {
+    let query = " SELECT * FROM Roles ";
+    connection.query (query, function (err, res){
+        console.table("All Roles", res);
+        runSearch();
+    })
+};
+
+// This function is to view all employees be department. LEFT JOIN is needed for role and department
 const viewEmployeesByDepartment = () => {
     let query = "Select * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN department on roles.department_id = department.id";
-
-    // let query = 'SELECT department.name, employee.id, employee.first_name, employee.last_name FROM employee';
-    // query += "LEFT JOIN roles on employee.role_id = roles.id";
-    // query += "LEFT JOIN department on roles.department_id = department.id";
-    // query += "WHERE department.id = 1";
     connection.query (query, (err, res) => {
         console.table ("Employees by Department", res);
         runSearch();
