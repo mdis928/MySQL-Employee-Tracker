@@ -1,8 +1,10 @@
-// For MySQL database connection
+    // For MySQL database connection
 const mysql = require('mysql');
-// So we can run inquirer prompts in the 
+
+    // So we can run inquirer prompts in the 
 const inquirer = require("inquirer");
-// Ask TA or instructor on what this does. Do I need to do an npm install?
+
+    // cTable shows data in terminal
 const cTable = require("console.table");
 
 let connection = mysql.createConnection({
@@ -35,6 +37,7 @@ const runSearch = () => {
         choices:[
             'Add a department',
             'Add an employee',
+            'Add a role',
             'View all employees',
             'View all departments',
             'View all roles',
@@ -51,6 +54,10 @@ const runSearch = () => {
               
           case 'Add an employee':
             addEmployee ();
+            break;  
+        
+          case 'Add a role':
+            addRole();
             break;  
 
           case 'View all employees':
@@ -76,14 +83,14 @@ const runSearch = () => {
           case "End Session":
               endSession();
               break;
-                 // this is case sensitive. The default helps when something is not matching case sensitive
+    // this is case sensitive. The default helps when something is not matching case sensitive
           default:
               connection.end();
         }
     });
 };
 
-// When I choose add department, I am asked for the name of the department. When I give an answer, that department name is saved
+    // When I choose add department, I am asked for the name of the department. When I give an answer, that department name is saved
 const addDepartment = () => {
     inquirer.prompt ({
         name: "addedDepartment",
@@ -105,7 +112,7 @@ const addDepartment = () => {
     });
 };
 
-// When I click on add employee, I need to put in firstname, lastname, role, and manager. Once I do that, the employee is saved.
+    // When I click on add employee, I need to put in firstname, lastname, role, and manager. Once I do that, the employee is saved.
 const addEmployee = () => {
     inquirer.prompt ([
     {
@@ -130,7 +137,7 @@ const addEmployee = () => {
         message: "Who is the employee's manager? Please enter the manager id integer (Rachel Salvator = 9, Lizzy Liz = 10, Abigail Chet = 11, Sharan Bartlebee = 12",
     },
     ]).then((answer) => {
-        connection.query(
+        connection.query (
             "INSERT INTO employee SET ?",
             {
                 first_name: answer.firstName,
@@ -148,8 +155,46 @@ const addEmployee = () => {
         
     });
 };
+    // When I click on add a role, I am ask for name, title, id, and department id
+const addRole = () => {
+    inquirer.prompt ([
+        {
+            name: "title",
+            type: "input",
+            message: "What is the title of the new role?",
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "What is the salary amount (integer)",
+        },
+        {
+            name: "departmentId",
+            type: "input",
+            message: "What is the department id that corresponds with the role (Integer?",
+        },
+    ]).then ((answer) => {
+        connection.query (
+            "INSERT INTO role SET ?",
+        {
+            title: answer.title,
+            salary: answer.salary,
+            department_id: answer.departmentId,
+        },
+        (err) => {
+            if (err) throw err;
+            console.table ("You have sucessfully added a new role!");
+            runSearch();
+        }
+        );
+    });
+};
 
-// This function is to view all employees 
+
+
+
+
+    // This function is to view all employees 
 const viewAllEmployees = () => {
     let query = " Select * FROM employee ";
     connection.query (query, function (err, res){
@@ -158,7 +203,7 @@ const viewAllEmployees = () => {
     })
 };
 
-// This function is to view all departments
+    // This function is to view all departments
 const viewAllDepartments = () => {
     let query = " SELECT * FROM department ";
     connection.query (query, function (err, res){
@@ -167,7 +212,7 @@ const viewAllDepartments = () => {
     })
 };
 
-// This function is to view all roles
+    // This function is to view all roles
 const viewAllRoles = () => {
     let query = " SELECT * FROM Roles ";
     connection.query (query, function (err, res){
@@ -176,65 +221,33 @@ const viewAllRoles = () => {
     })
 };
 
-// This function is to view all employees be department. LEFT JOIN is needed for role and department
+    // This function is to view all employees be department. LEFT JOIN is needed for role and department
 const viewEmployeesByDepartment = () => {
     let query = "Select * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN department on roles.department_id = department.id";
     connection.query (query, (err, res) => {
-        console.table ("Employees by Department", res);
+        console.table ("View Employees by Department", res);
         runSearch();
     })
 };
 
-// This variable to pick a manager.
-// When you pick a manager, this will show all the manager's employees
+
 const viewAllEmployeesByManager = () => {
-    const query = "SELECT manager.name, employee.id, employee.first_name, employee.lastname FROM employee";
-    query += "LEFT JOIN roles on employee.role_id =roles.id";
-    query += "LEFT JOIN employee on roles.manager_id = manager.id.";
-    query += "Where manager.id = 1";
+    const query = "SELECT * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN manager on employee.manager_id = manager.id";
     connection.query (query, (err, res) => {
         console.table ("Employees by Manager", res);
-        runSearch()
+        runSearch();
     })
-    
 };
 
-// To exit the database
+    // To exit the database
 function endSession () {
     console.log('You have now ended session. Thank you for using the employee tracker database');
     connection.end();
-}
+};
 
 
 
-// const addRole = () => {
-    //     inquirer.prompt ({
-    //         name: "addedRole",
-    //         type: "input",
-    //         message: "What is the new name of the new role?",
-    //     },
-    //     {
-    //         name: "salary",
-    //         type: "input",
-    //         message: "What is the salary for the new role",
-    //     },
-    //     {
-    
-    //     })
-    //     .then ((answer) => {
-    //         connection.query(
-    //             "INSERT INTO department",
-    //             {
-    //                 name: answer.addedDepartment
-    //             },
-    //             (err) => {
-    //                 if (err) throw err;
-    //                 console.table("You have sucessfull added a new employee");
-    //                 runSearch();
-    //             }
-    //         );
-    //     });
-    // };
+
 
 
 
