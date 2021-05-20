@@ -52,9 +52,12 @@ const runSearch = () => {
             break;  
 
           case 'View all employees':
-              console.log(answer.action)
             viewAllEmployees();
             break;
+        
+          case "View all departments":
+             viewAllDepartments();
+             break;   
   
           case 'View all employees by department':
             viewEmployeesByDepartment();
@@ -143,21 +146,24 @@ const addEmployee = () => {
     });
 };
 
-// This variable is to view all employees. Inside this variable, we have a function wherewe want to query the data from EmployeeDB.
-// If we type something in wrong, then we get an error 
+// This function is to view all employees 
 const viewAllEmployees = () => {
     let query = " Select * FROM employee ";
-    // console.log(query);
     connection.query (query, function (err, res){
-        // console.log(res);
         console.table("All Employees", res);
         runSearch();
     })
-    
-}
+};
 
-// This variable to view all employees by department (engineering, sales, legal, etc)
-// choose which department and all employees from that department will show
+const viewAllDepartments = () => {
+    let query = " SELECT * FROM department ";
+    connection.query (query, function (err, res){
+        console.table("All Departments, res");
+        runSearch();
+    })
+};
+
+// This function is to view all employees be department. LEFT JOIN is needed
 const viewEmployeesByDepartment = () => {
     let query = "Select * FROM employee LEFT JOIN roles on roles.id = employee.role_id LEFT JOIN department on roles.department_id = department.id";
 
