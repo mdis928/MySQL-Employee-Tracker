@@ -230,38 +230,19 @@ const viewAllRoles = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
     // This function will let you update an employee's role
 const UpdateEmployeeRoles = () => {
-    let query = "Select * FROM employee";
+    console.log("Choose an employee and then update the role id");
+    let query = "Update employee  set ? Where ?";
     connection.query (query, (err, res) => {
-        if (err) throw err;
-
-        inquirer.prompt([{
-            name: "choice",
-            type: "rawlist",
-            message: "Which employee's role would you like to update?",
-            choices: function (){
-                let choiceArray = [];
-                for (let i=1; i < res.length; i++) {
-                    let emp = '';
-                    emp = `${res[i].id} ${res[i].first_name} ${res[i].last_name} ${res[i].role_id}`
-                    choiceArray.push(emp)
-                }
-            } return choiceArray
+        {
+            role_id
         }
-        ])
+        console.table ("Change the role id number", res);
+        runSearch();
     })
-}
+};
+
    
 
 
