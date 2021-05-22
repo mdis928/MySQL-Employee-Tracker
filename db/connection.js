@@ -240,69 +240,111 @@ const viewAllRoles = () => {
 };
 
 
-    // This function will let you update an employee's role
-const UpdateEmployeeRoles = () => {
-        // query the database for all items being auctioned
-        connection.query('SELECT * FROM employee', (err, results) => {
-          if (err) throw err;
-          // once you have the items, prompt the user for which they'd like to bid on
-          inquirer
-            .prompt([
-              {
-                name: 'choice',
-                type: 'rawlist',
-                choices() {
-                  const choiceArray = [];
-                  results.forEach(({ role_id }) => {
-                    choiceArray.push(role_id);
-                  });
-                  return choiceArray;
-                },
-                message: 'Choose which role you would like to update?',
-              },
-              {
-                name: 'roleId',
-                type: 'input',
-                message: 'Please enter the integer',
-              },
-            ])
-            .then((answer) => {
-              // get the information of the chosen item
-              let chosenItem;
-              results.forEach((answer) => {
-                if (answer.role_id === answer.choice) {
-                  chosenItem = answer;
-                }
-              });
+//     // This function will let you update an employee's role
+// const UpdateEmployeeRoles = () => {
+//         // query the database for all items being auctioned
+//         connection.query('SELECT * FROM employee', (err, results) => {
+//           if (err) throw err;
+//           // once you have the items, prompt the user for which they'd like to bid on
+//           inquirer
+//             .prompt([
+//               {
+//                 name: 'choice',
+//                 type: 'rawlist',
+//                 choices() {
+//                   const choiceArray = [];
+//                   results.forEach(({ role_id }) => {
+//                     choiceArray.push(role_id);
+//                   });
+//                   return choiceArray;
+//                 },
+//                 message: 'Choose which role you would like to update?',
+//               },
+//               {
+//                 name: 'roleId',
+//                 type: 'input',
+//                 message: 'Please enter the integer',
+//               },
+//             ])
+//             .then((answer) => {
+//               // get the information of the chosen item
+//               let chosenItem;
+//               results.forEach((answer) => {
+//                 if (answer.role_id === answer.choice) {
+//                   chosenItem = answer;
+//                 }
+//               });
       
-            //   determine if bid was high enough
-              if (chosenItem.role_id === parseInt(answer.role_id)) {
-                // bid was high enough, so update db, let the user know, and start over
-                connection.query(
-                  'UPDATE employee SET role_id = ? WHERE ID = ?',
-                  [
-                    {
-                      role_id: answer.roleId,
-                    },
-                    {
-                      id: chosenItem.roleId,
-                    },
-                  ],
-                  (error) => {
-                    if (error) throw err;
-                    console.log('Role has been updated');
-                    start();
-                  }
-                );
-              } else {
-                // bid wasn't high enough, so apologize and start over
-                console.log('The input or code is not working');
-                runSearch();
-              }
-            runSearch();
-            });
-        });
-      };
+//             //   determine if bid was high enough
+//               if (chosenItem.role_id === parseInt(answer.role_id)) {
+//                 // bid was high enough, so update db, let the user know, and start over
+//                 connection.query(
+//                   'UPDATE employee SET role_id = ? WHERE ID = ?',
+//                   [
+//                     {
+//                       role_id: answer.roleId,
+//                     },
+//                     {
+//                       id: chosenItem.roleId,
+//                     },
+//                   ],
+//                   (error) => {
+//                     if (error) throw err;
+//                     console.log('Role has been updated');
+//                     start();
+//                   }
+//                 );
+//               } else {
+//                 // bid wasn't high enough, so apologize and start over
+//                 console.log('The input or code is not working');
+//                 runSearch();
+//               }
+//             runSearch();
+//             });
+//         });
+//       };
+
+
+const UpdateEmployeeRoles = () => {
+  let query = " Select * FROM roles ";
+  connection.query (query, function (err, res){
+      console.table("All Roles", res);
+  })
+  connection.query('SELECT * FROM roles', (err, results) => {
+      if (err) throw err;
+      // once you have the items, prompt the user for which they'd like to bid on
+      inquirer
+        .prompt([
+          {
+          //   name: 'choice',
+          //   type: 'rawlist',
+          //   choices() {
+          //     const choiceArray = [];
+          //     results.forEach(({ id }) => {
+          //       choiceArray.push(id);
+          //     });
+          //     return choiceArray;
+          //   }, 
+            name: "UpdateRoles",
+            type: 'choices',
+            message: "Choose the role id (integer) to change",
+          },
+      ])
+      .then ((answers) => {
+      //     let chosenEmployee;
+      //     results.forEach((id) => {
+      //         if (choices.id === answers.choice) {
+      //           chosenEmployee = id;
+      //         }
+          //   });
+          let query = "Update FROM role WHERE id =" + answers.UpdateEmployee;
+          connection.query (query, (err, res) => {
+              console.log ("Employee role has been updated");
+              runSearch();
+          })
+      })
+  })
+};
 
 
 const DeleteAnEmployee = () => {
