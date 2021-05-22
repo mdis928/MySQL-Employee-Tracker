@@ -326,20 +326,29 @@ const UpdateEmployeeRoles = () => {
           //     return choiceArray;
           //   }, 
             name: "UpdateRoles",
-            type: 'choices',
+            type: 'input',
             message: "Choose the role id (integer) to change",
           },
+          {
+            name: "ChangeTitle",
+            type: "input",
+            message: "Please give the title an updated role name", 
+          }
       ])
       .then ((answers) => {
+        console.log(answers.ChangeTitle);
+        console.log(answers.UpdateRoles);
       //     let chosenEmployee;
       //     results.forEach((id) => {
       //         if (choices.id === answers.choice) {
       //           chosenEmployee = id;
       //         }
           //   });
-          let query = "Update FROM role WHERE id =" + answers.UpdateEmployee;
+          let query = "Update roles SET title = '" + answers.ChangeTitle + "' WHERE id =" + parseInt(answers.UpdateRoles);
+          console.log(query)
           connection.query (query, (err, res) => {
-              console.log ("Employee role has been updated");
+              console.log ("Title name has been updated");
+              console.log (res),
               runSearch();
           })
       })
