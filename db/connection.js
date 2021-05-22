@@ -26,6 +26,8 @@ let connection = mysql.createConnection({
     //When there is an error in connection  
 connection.connect((err) => {
     if (err) throw err;
+    console.log(``)
+    
     runSearch();
 });
 
@@ -230,102 +232,111 @@ const viewAllRoles = () => {
 };
 
 
-//     // This function will let you update an employee's role
-// const UpdateEmployeeRoles = () => {
-//         // query the database for all items being auctioned
-//         connection.query('SELECT * FROM employee', (err, results) => {
-//           if (err) throw err;
-//           // once you have the items, prompt the user for which they'd like to bid on
-//           inquirer
-//             .prompt([
-//               {
-//                 name: 'choice',
-//                 type: 'rawlist',
-//                 choices() {
-//                   const choiceArray = [];
-//                   results.forEach(({ role_id }) => {
-//                     choiceArray.push(role_id);
-//                   });
-//                   return choiceArray;
-//                 },
-//                 message: 'Choose which role you would like to update?',
-//               },
-//               {
-//                 name: 'roleId',
-//                 type: 'input',
-//                 message: 'Please enter the integer',
-//               },
-//             ])
-//             .then((answer) => {
-//               // get the information of the chosen item
-//               let chosenItem;
-//               results.forEach((answer) => {
-//                 if (answer.role_id === answer.choice) {
-//                   chosenItem = answer;
-//                 }
-//               });
+    // This function will let you update an employee's role
+const UpdateEmployeeRoles = () => {
+        // query the database for all items being auctioned
+        connection.query('SELECT * FROM employee', (err, results) => {
+          if (err) throw err;
+          // once you have the items, prompt the user for which they'd like to bid on
+          inquirer
+            .prompt([
+              {
+                name: 'choice',
+                type: 'rawlist',
+                choices() {
+                  const choiceArray = [];
+                  results.forEach(({ role_id }) => {
+                    choiceArray.push(role_id);
+                  });
+                  return choiceArray;
+                },
+                message: 'Choose which role you would like to update?',
+              },
+              {
+                name: 'roleId',
+                type: 'input',
+                message: 'Please enter the integer',
+              },
+            ])
+            .then((answer) => {
+              // get the information of the chosen item
+              let chosenItem;
+              results.forEach((answer) => {
+                if (answer.role_id === answer.choice) {
+                  chosenItem = answer;
+                }
+              });
       
-//               // determine if bid was high enough
-//             //   if (chosenItem.role_id === parseInt(answer.role_id)) {
-//             //     // bid was high enough, so update db, let the user know, and start over
-//             //     connection.query(
-//             //       'UPDATE employee SET role_id = ? WHERE ID = ?',
-//             //       [
-//             //         {
-//             //           role_id: answer.roleId,
-//             //         },
-//             //         {
-//             //           id: chosenItem.roleId,
-//             //         },
-//             //       ],
-//             //       (error) => {
-//             //         if (error) throw err;
-//             //         console.log('Role has been updated');
-//             //         start();
-//             //       }
-//             //     );
-//             //   } else {
-//             //     // bid wasn't high enough, so apologize and start over
-//             //     console.log('The input or code is not working');
-//             //     runSearch();
-//             //   }
-//             runSearch();
-//             });
-//         });
-//       };
+            //   determine if bid was high enough
+              if (chosenItem.role_id === parseInt(answer.role_id)) {
+                // bid was high enough, so update db, let the user know, and start over
+                connection.query(
+                  'UPDATE employee SET role_id = ? WHERE ID = ?',
+                  [
+                    {
+                      role_id: answer.roleId,
+                    },
+                    {
+                      id: chosenItem.roleId,
+                    },
+                  ],
+                  (error) => {
+                    if (error) throw err;
+                    console.log('Role has been updated');
+                    start();
+                  }
+                );
+              } else {
+                // bid wasn't high enough, so apologize and start over
+                console.log('The input or code is not working');
+                runSearch();
+              }
+            runSearch();
+            });
+        });
+      };
 
 
-// const DeleteAnEmployee = () => {
-//     connection.query ("DELETE employee WHERE id = ?", (err, results) => {
-//         if (err) throw err;
-//         // once you have the items, prompt the user for which they'd like to bid on
-//         inquirer
-//           .prompt([
-//             {
-//               name: 'choice',
-//               type: 'rawlist',
-//               choices() {
-//                 const choiceArray = [];
-//                 results.forEach(({ id }) => {
-//                   choiceArray.push(id);
-//                 });
-//                 return choiceArray;
-//               }, 
-//               name: "deleteEmployee",
-//               type: 'choices',
-//               message: "Choose which employee that you would like to remove",
-//             },
-//         ])
-//         .then ((answers) => {
-//             let chosenEmployee;
-//             results.forEach((id) => {
-//                 if (choices.id === answers.choice) {
-//                   chosenEmployee = id;
-//                 }
-//               });
-//         })
-//     })
-// };
+const DeleteAnEmployee = () => {
+    let query = " Select * FROM employee ";
+    connection.query (query, function (err, res){
+        console.table("All Employees", res);
+    })
+    connection.query('SELECT * FROM employee', (err, results) => {
+        if (err) throw err;
+        // once you have the items, prompt the user for which they'd like to bid on
+        inquirer
+          .prompt([
+            {
+            //   name: 'choice',
+            //   type: 'rawlist',
+            //   choices() {
+            //     const choiceArray = [];
+            //     results.forEach(({ id }) => {
+            //       choiceArray.push(id);
+            //     });
+            //     return choiceArray;
+            //   }, 
+              name: "deleteEmployee",
+              type: 'choices',
+              message: "Choose which employee that you would like to remove",
+            },
+        ])
+        .then ((answers) => {
+        //     let chosenEmployee;
+        //     results.forEach((id) => {
+        //         if (choices.id === answers.choice) {
+        //           chosenEmployee = id;
+        //         }
+            //   });
+            let query = "Delete FROM employee WHERE id =" + answers.deleteEmployee;
+            connection.query (query, (err, res) => {
+                console.log ("Employee has been deleted");
+                runSearch();
+            })
+        })
+    })
+};
 
 
 
