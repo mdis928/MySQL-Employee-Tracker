@@ -4,12 +4,12 @@ https://github.com/mdis928/MySQL-Employee-Tracker
 ## Description
 This project was to use previous technologies plus MySQL database. In this case, we create a DB wher you can use CRUD functions for our employees
 ## Table of Contents
-* [Installiation] (#installiation)
-* [Usage] (#usage)
-* [License] (#license)
-* [Contributions] (#contributions)
-* [Tests] (#tests)
-* [Questions] (#questions)
+* [Installiation](#installiation)
+* [Usage](#usage)
+* [License](#license)
+* [Contributions](#contributions)
+* [Tests](#tests)
+* [Questions](#questions)
 ## Installiations 
 The following dependencies must be installed to run the application: MySQL, Inquirer, console.table, express
 ## Usage
@@ -25,3 +25,7 @@ If you have any questions about the repo, contact Michael DiSanto at mdis928 via
 
 https://github.com/mdis928/MySQL-Employee-Tracker
 https://drive.google.com/file/d/1PIKLCwjRgkt1yIn2wK8_StS8pBACaveW/view
+
+![employeetracker pic](assets/images/employeetracker.PNG)
+
+
